@@ -3,6 +3,7 @@ package br.com.KevinVSantos.SimpleLibrary.domain.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,6 +22,7 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
     private String author;
 
     @JoinColumn(name = "mainGenreTitle")
@@ -44,6 +46,7 @@ public class Book {
     private String type;
 
     @Column(scale = 2)
+    @NotBlank
     private BigDecimal price;
 
     @Column(precision = 4, scale = 2)
@@ -52,4 +55,9 @@ public class Book {
     private int reviews;
 
     private String url;
+
+    @AssertTrue(message = "must greater than zero.")
+    public boolean isPrice(){
+        return this.getPrice().compareTo(BigDecimal.ZERO) >= 0;
+    }
 }
