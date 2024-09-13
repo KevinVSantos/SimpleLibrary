@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Genre {
+public class Genre extends AbstractEntity<String> {
 
     @Id
     private String title;
@@ -24,4 +24,8 @@ public class Genre {
     @JoinColumn(name = "mainGenreTitle", insertable = false, updatable = false)
     private List<SubGenre> subGenres;
 
+    @Override
+    public String getGenericId() {
+        return this.getTitle();
+    }
 }

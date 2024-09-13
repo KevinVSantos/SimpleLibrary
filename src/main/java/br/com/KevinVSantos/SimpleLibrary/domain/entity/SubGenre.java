@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class SubGenre {
+public class SubGenre extends AbstractEntity<String>{
 
     @Id
     private String title;
@@ -29,4 +29,8 @@ public class SubGenre {
     @JoinColumn(name = "mainGenreTitle", insertable = false, updatable = false)
     private Genre mainGenre;
 
+    @Override
+    public String getGenericId() {
+        return this.getTitle();
+    }
 }

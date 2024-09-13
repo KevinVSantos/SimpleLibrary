@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Book {
+public class Book extends AbstractEntity<Long>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,5 +59,10 @@ public class Book {
     @AssertTrue(message = "must greater than zero.")
     public boolean isPrice(){
         return this.getPrice().compareTo(BigDecimal.ZERO) >= 0;
+    }
+
+    @Override
+    public Long getGenericId() {
+        return this.getId();
     }
 }
