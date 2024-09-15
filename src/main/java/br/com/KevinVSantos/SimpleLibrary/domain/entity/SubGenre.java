@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -16,6 +18,7 @@ import lombok.NoArgsConstructor;
 public class SubGenre extends AbstractEntity<String>{
 
     @Id
+    @NotBlank
     private String title;
 
     private String url;
@@ -29,7 +32,13 @@ public class SubGenre extends AbstractEntity<String>{
     @JoinColumn(name = "mainGenreTitle", insertable = false, updatable = false)
     private Genre mainGenre;
 
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "subGenreTitle", insertable = false, updatable = false)
+    private List<Book> books;
+
     @Override
+    @JsonIgnore
     public String getGenericId() {
         return this.getTitle();
     }

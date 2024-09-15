@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.AssertTrue;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,18 +18,18 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Book extends AbstractEntity<Long>{
+public class Book extends AbstractEntity<String>{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @NotBlank
+    private String title;
 
     @NotBlank
     private String author;
 
     @JoinColumn(name = "mainGenreTitle")
     @NotBlank
-    private Long mainGenreTitle;
+    private String mainGenreTitle;
 
     @JsonIgnore
     @ManyToOne( targetEntity = Genre.class)
@@ -36,7 +38,7 @@ public class Book extends AbstractEntity<Long>{
 
     @JoinColumn(name = "subGenreTitle")
     @NotBlank
-    private Long subGenreTitle;
+    private String subGenreTitle;
 
     @JsonIgnore
     @ManyToOne( targetEntity = SubGenre.class)
@@ -46,23 +48,30 @@ public class Book extends AbstractEntity<Long>{
     private String type;
 
     @Column(scale = 2)
-    @NotBlank
+    @NotNull
     private BigDecimal price;
 
     @Column(precision = 4, scale = 2)
     private BigDecimal rate;
 
-    private int reviews;
+    @Min(value = 0)
+    private Long reviews;
 
     private String url;
 
-    @AssertTrue(message = "must greater than zero.")
+    @AssertTrue(message = "must be greater than zero.")
     public boolean isPrice(){
         return this.getPrice().compareTo(BigDecimal.ZERO) >= 0;
     }
 
+    @AssertTrue(message = "must be between zero than ten.")
+    public boolean isRate(){
+        return this.getRate().compareTo(BigDecimal.ZERO) >= 0 && this.getRate().compareTo(BigDecimal.TEN) <= 0;
+    }
+
     @Override
-    public Long getGenericId() {
-        return this.getId();
+    @JsonIgnore
+    public String getGenericId() {
+        return this.getTitle();
     }
 }
