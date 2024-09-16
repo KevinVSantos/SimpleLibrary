@@ -22,6 +22,7 @@ public class Book extends AbstractEntity<String>{
 
     @Id
     @NotBlank
+    @Column(length = 1000)
     private String title;
 
     @NotBlank
@@ -54,9 +55,7 @@ public class Book extends AbstractEntity<String>{
     @Column(precision = 4, scale = 2)
     private BigDecimal rate;
 
-    @Min(value = 0)
-    private Long reviews;
-
+    @Column(length = 2000)
     private String url;
 
     @AssertTrue(message = "must be greater than zero.")
