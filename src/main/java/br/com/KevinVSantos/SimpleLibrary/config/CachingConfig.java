@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableCaching
-public class CachingConfiguration extends CachingConfigurerSupport {
+public class CachingConfig extends CachingConfigurerSupport {
 
     public final static String CACHE_RESOLVER_NAME = "simpleCacheResolver";
 
@@ -22,6 +22,6 @@ public class CachingConfiguration extends CachingConfigurerSupport {
 
     @Bean(CACHE_RESOLVER_NAME)
     public CacheResolver cacheResolver(CacheManager cacheManager) {
-        return new RuntimeCacheResolver(cacheManager);
+        return new RuntimeCacheResolverConfig(cacheManager);
     }
 }

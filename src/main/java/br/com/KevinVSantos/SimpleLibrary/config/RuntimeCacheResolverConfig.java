@@ -7,11 +7,11 @@ import org.springframework.cache.interceptor.SimpleCacheResolver;
 
 import java.util.*;
 
-public class RuntimeCacheResolver extends SimpleCacheResolver {
+public class RuntimeCacheResolverConfig extends SimpleCacheResolver {
 
     public static final Map<String, List<String>> evictMap = new HashMap<>();
 
-    protected RuntimeCacheResolver(CacheManager cacheManager) {
+    protected RuntimeCacheResolverConfig(CacheManager cacheManager) {
         super(cacheManager);
         evictMap.put("GenreController", Arrays.asList("SubGenreController", "BookController"));
         evictMap.put("SubGenreController", Arrays.asList("BookController"));
